@@ -82,9 +82,9 @@ if ($databaseUrl) {
     }
 }
 
-$host = env('DB_HOST', 'localhost');
+$host = env('DB_HOST', '172.20.0.8');
 $user = env('DB_USER', 'root');
-$pass = env('DB_PASS', '');
+$pass = env('DB_PASS', 'Oc7CnZR8k3TU5Mb7dobFGz0Tyy4WMppNKkcKpSMyg9dsni3sSvle8oHi3LIlgTnk');
 $db   = env('DB_NAME', 'benahinyuk');
 $port = env('DB_PORT', 3306);
 $socket = env('DB_SOCKET', null);
