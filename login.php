@@ -6,20 +6,16 @@ if (isset($_POST['login'])) {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    // Cek user berdasarkan email
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = mysqli_query($conn, $sql);
     $user = mysqli_fetch_assoc($result);
 
-    // Verifikasi Password
     if ($user) {
         if (password_verify($password, $user['password'])) {
-            // Login Sukses! Simpan data penting ke Session
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['nama'] = $user['nama_lengkap'];
-            $_SESSION['status'] = $user['status']; // 0 atau 1
-            
-            // Redirect ke Dashboard
+            $_SESSION['status'] = $user['status']; 
+
             header("Location: dashboard.php");
             exit;
         } else {

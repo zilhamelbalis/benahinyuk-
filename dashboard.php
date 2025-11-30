@@ -2,14 +2,11 @@
 session_start();
 include 'koneksi.php';
 
-// DEFAULT VARIABLES (Untuk Tamu)
-$status_akun = 0; // Default terkunci
+$status_akun = 0; 
 $is_loggedin = false;
 $nama_user = "Tamu";
 
-// CEK LOGIN
 if (isset($_SESSION['user_id'])) {
-    // Jika user login, ambil data aslinya dari database
     $id_user = $_SESSION['user_id'];
     $query = mysqli_query($conn, "SELECT * FROM users WHERE id = '$id_user'");
     
@@ -93,9 +90,9 @@ if (isset($_SESSION['user_id'])) {
                         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
                         
                         <?php if(!$is_loggedin): ?>
-                            <a href="register.php" class="btn btn-locked" style="text-decoration: none;">
-                                <i class="fa-solid fa-lock"></i> Daftar untuk Buka
-                            </a>
+<button type="button" class="btn btn-locked" onclick="bukaModal()">
+    <i class="fa-solid fa-lock"></i> Daftar untuk Buka
+</button>
                         <?php else: ?>
                             <button class="btn btn-locked"><i class="fa-solid fa-lock"></i> Menunggu Verifikasi</button>
                         <?php endif; ?>
@@ -111,9 +108,9 @@ if (isset($_SESSION['user_id'])) {
                         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
                         
                         <?php if(!$is_loggedin): ?>
-                            <a href="register.php" class="btn btn-locked" style="text-decoration: none;">
-                                <i class="fa-solid fa-lock"></i> Daftar untuk Buka
-                            </a>
+<button type="button" class="btn btn-locked" onclick="bukaModal()">
+    <i class="fa-solid fa-lock"></i> Daftar untuk Buka
+</button>
                         <?php else: ?>
                             <button class="btn btn-locked"><i class="fa-solid fa-lock"></i> Menunggu Verifikasi</button>
                         <?php endif; ?>
@@ -129,9 +126,9 @@ if (isset($_SESSION['user_id'])) {
                         <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i></div>
                         
                         <?php if(!$is_loggedin): ?>
-                            <a href="register.php" class="btn btn-locked" style="text-decoration: none;">
-                                <i class="fa-solid fa-lock"></i> Daftar untuk Buka
-                            </a>
+<button type="button" class="btn btn-locked" onclick="bukaModal()">
+    <i class="fa-solid fa-lock"></i> Daftar untuk Buka
+</button>
                         <?php else: ?>
                             <button class="btn btn-locked"><i class="fa-solid fa-lock"></i> Menunggu Verifikasi</button>
                         <?php endif; ?>
@@ -242,6 +239,69 @@ if (isset($_SESSION['user_id'])) {
         </div>
     </footer>
     
-    <script src="script.js"></script>
+    <div id="premiumModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <h3>Akses Premium Diperlukan</h3>
+            <p>Maaf, kontak tukang ini dikunci khusus untuk Member Premium. Biaya pendaftaran hanya <strong>Rp 15.000</strong> seumur hidup.</p>
+            
+            <div class="modal-buttons">
+                <button onclick="tutupModal()" class="btn-cancel">Nanti Dulu</button>
+                <a href="register.php" class="btn-confirm">Daftar Sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay {
+            display: none; 
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); 
+            z-index: 9999;
+            align-items: center;     
+            justify-content: center; 
+        }
+        
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s; }
+
+        .modal-box {
+            background: white; padding: 30px; border-radius: 15px;
+            width: 90%; max-width: 400px; text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .modal-icon {
+            width: 60px; height: 60px; background: #fff7ed; color: #f97316;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; margin: 0 auto 15px auto;
+        }
+        
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-confirm { background: #f97316; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; flex: 1; font-weight: bold; }
+        .btn-cancel { background: white; border: 1px solid #ddd; color: #555; padding: 10px 20px; border-radius: 8px; cursor: pointer; flex: 1; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+
+    <script>
+        function bukaModal() {
+            document.getElementById('premiumModal').classList.add('active');
+        }
+        
+        function tutupModal() {
+            document.getElementById('premiumModal').classList.remove('active');
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById('premiumModal');
+            if (event.target == modal) {
+                tutupModal();
+            }
+        }
+    </script>
+    
 </body>
 </html>
