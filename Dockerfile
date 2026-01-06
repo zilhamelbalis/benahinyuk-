@@ -14,14 +14,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Final runtime stage
 FROM php:8.2-apache
 
-# Copy PHP extensions from builder
-COPY --from=builder /usr/local/lib/php/extensions /usr/local/lib/php/extensions
-COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
-
-# Install only runtime dependencies
+# Install runtime dependencies needed for mysqli
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install PHP extensions directly in final stage
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Enable Apache modules
 RUN a2enmod rewrite headers && a2dismod status cgi-bin
