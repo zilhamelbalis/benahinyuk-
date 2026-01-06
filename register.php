@@ -122,31 +122,6 @@ if (isset($_POST['daftar'])) {
     }
 }
 ?>
-                    
-                    $nomor_admin = "62895712883434"; 
-                    $pesan = "Halo Admin, saya baru saja mendaftar di BenahinYuk a.n *$nama*. Saya sudah upload bukti transfer, mohon segera diaktifkan akun saya.";
-                    $pesan_encoded = urlencode($pesan);
-                    $link_wa = "https://wa.me/$nomor_admin?text=$pesan_encoded";
-
-                    echo "<script>
-                        alert('✅ Pendaftaran Berhasil! \\n\\nKlik OK untuk langsung konfirmasi ke WhatsApp Admin.');
-                        window.location.href = '$link_wa';
-                    </script>";
-                } else {
-                    $error_msg = "$email - Database Error: " . mysqli_error($conn);
-                    logUploadError($error_msg);
-                    unlink($path); // Delete uploaded file if DB insert fails
-                    echo "<script>alert('❌ Error Database: " . mysqli_error($conn) . "');</script>";
-                }
-            } else {
-                $error_msg = "$email - Move file failed. Tmp: $tmp_file, Path: $path, Writable: " . (is_writable("uploads") ? "Yes" : "No");
-                logUploadError($error_msg);
-                echo "<script>alert('❌ Gagal upload gambar. Hubungi admin jika masalah berlanjut.');</script>";
-            }
-        }
-    }
-}
-?>
 
 <!DOCTYPE html>
 <html lang="id">
