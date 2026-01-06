@@ -102,7 +102,7 @@ if (isset($_POST['daftar'])) {
 
                         echo "<script>
                             alert('✅ Pendaftaran Berhasil! \\n\\nKlik OK untuk langsung konfirmasi ke WhatsApp Admin.');
-                            window.location.href = '$link_wa';
+                            window.location.href = " . json_encode($link_wa) . ";
                         </script>";
                     } else {
                         $error_msg = "$email - Database Error: " . mysqli_error($conn);
