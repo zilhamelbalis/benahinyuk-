@@ -90,8 +90,8 @@ spec:
       - name: ghcr-secret
       containers:
       - name: benahinyuk
-        image: benahinyuk:fresh
-        imagePullPolicy: Never
+        image: benahinyuk:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
         env:
