@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: image-puller
+  namespace: apps
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: image-puller
+rules:
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "patch"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: image-puller
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: image-puller
+subjects:
+- kind: ServiceAccount
+  name: image-puller
+  namespace: apps
+
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pull-latest-image
+  namespace: apps
+spec:
+  schedule: "*/5 * * * *"  # Every 5 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: image-puller
+          containers:
+          - name: image-puller
+            image: bitnami/kubectl:latest
+            imagePullPolicy: Always
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Triggering deployment rollout to pull latest image..."
+              kubectl rollout restart deployment/benahinyuk -n apps
+              kubectl rollout status deployment/benahinyuk -n apps
+          restartPolicy: OnFailure
