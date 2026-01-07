@@ -43,9 +43,9 @@
       chmod -R 775 /var/www/html/uploads && \
       chmod -R 775 /var/www/html/logs
   
-  # Copy .env if exists
-  COPY --chown=www-data:www-data .env.example* ./
-  RUN if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi
+  # Note: .env file not needed in production - using K8s environment variables
+  # COPY --chown=www-data:www-data .env.example* ./
+  # RUN if [ -f .env.example ] && [ ! -f .env ]; then cp .env.example .env; fi
   
   # Health check
   HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
