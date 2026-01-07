@@ -89,8 +89,8 @@ if (isset($_POST['daftar'])) {
                     // Chmod the uploaded file
                     chmod($path, 0644);
 
-                    $sql = "INSERT INTO users (nama_lengkap, email, whatsapp, password, bukti_bayar, status) 
-                            VALUES ('$nama', '$email', '$wa', '$password', '$nama_baru', 0)";
+                            $sql = "INSERT INTO users (nama_lengkap, email, whatsapp, password, bukti_bayar, status) 
+                                VALUES ('$nama', '$email', '$wa', '$password', '$nama_baru', 'pending')";
                     
                     if (mysqli_query($conn, $sql)) {
                         logUploadError("$email - ✅ Upload Berhasil: $nama_baru");

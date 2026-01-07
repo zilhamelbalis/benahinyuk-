@@ -51,9 +51,9 @@ if (isset($_GET['id']) && isset($_GET['action'])) {
     $id = intval($_GET['id']);
     $action = $_GET['action'];
     
-    $status_baru = ($action == 'aktifkan') ? 1 : 0;
+    $status_baru = ($action == 'aktifkan') ? 'active' : 'inactive';
 
-    $update = mysqli_query($conn, "UPDATE users SET status = $status_baru WHERE id = $id");
+    $update = mysqli_query($conn, "UPDATE users SET status = '" . mysqli_real_escape_string($conn, $status_baru) . "' WHERE id = $id");
     
 if ($update) {
     header("Location: admin.php?pesan=sukses");
@@ -143,14 +143,14 @@ $query = mysqli_query($conn, "SELECT * FROM users ORDER BY id DESC");
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if($row['status'] == 1): ?>
+                            <?php if($row['status'] === 'active'): ?>
                                 <span class="status-badge active">✅ Aktif</span>
                             <?php else: ?>
                                 <span class="status-badge pending">⏳ Pending</span>
                             <?php endif; ?>
                         </td>
                         <td>
-                            <?php if($row['status'] == 0): ?>
+                            <?php if($row['status'] !== 'active'): ?>
 <button type="button" class="btn-sm btn-green" style="border:none; cursor:pointer;" 
     onclick="konfirmasiAksi('admin.php?id=<?= $row['id'] ?>&action=aktifkan', 'Yakin ingin mengaktifkan member <?= $row['nama_lengkap'] ?>?', 'aktifkan')">
     ✔ Aktifkan

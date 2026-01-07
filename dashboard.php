@@ -2,7 +2,7 @@
 session_start();
 include 'koneksi.php';
 
-$status_akun = 0; 
+$status_akun = 'pending'; 
 $is_loggedin = false;
 $nama_user = "Tamu";
 
@@ -55,7 +55,7 @@ if (isset($_SESSION['user_id'])) {
     <section class="section directory-page">
         <div class="container">
             
-            <?php if ($status_akun == 0): ?>
+            <?php if ($status_akun !== 'active'): ?>
 
                 <div class="directory-header">
                     
